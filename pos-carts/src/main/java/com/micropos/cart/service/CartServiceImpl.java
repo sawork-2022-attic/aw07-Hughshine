@@ -93,7 +93,6 @@ public class CartServiceImpl implements CartService {
         }
         Double total =
                 circuitBreaker.run(() -> restTemplate.postForObject(COUNTER_URL + "/checkout", finalRequest, Double.class), throwable -> -1.0);
-        
         return total;
     }
 
@@ -116,11 +115,11 @@ public class CartServiceImpl implements CartService {
         System.out.println(cart);
         System.out.println(item);
         if (item.id() == null || itemRepository.findById(item.id()).isEmpty()) {
-            item.id(null);
+            item.updateId();
         }
         if (cart.addItem(item)) {
             System.out.println(cart);
-            return cartRepository.save(cart);
+            return cartRepository.saveAndFlush(cart);
         }
         return null;
     }

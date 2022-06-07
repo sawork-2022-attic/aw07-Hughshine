@@ -8,14 +8,10 @@ spring:
         function:
           bindings:
             makeDelivery-in-0: deliver
-        # bindings:
-        #   loan-declined:
-        #     destination: loan-declined
-        #   loan-approved:
-        #     destination: loan-approved
         rabbit:
           bindings:
             deliver:
+              destination: deliver
               consumer:
                 declare-exchange: false
 server:

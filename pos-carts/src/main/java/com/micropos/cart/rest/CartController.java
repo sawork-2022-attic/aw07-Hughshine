@@ -46,9 +46,10 @@ public class CartController implements CartsApi {
         // better check cartItem is valid.
         CartDto cartDto = cartMapper.toCartDto(cart.get());
         Item item = cartMapper.toItem(cartItemDto, cartDto);
-
+        System.out.println("ITEM..... " + item.toString());
 //        System.out.println(cart.get());
         Cart _cart = cartService.add(cart.get(), item);
+        System.out.println("I'm here..." + item.toString());
         if (_cart == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

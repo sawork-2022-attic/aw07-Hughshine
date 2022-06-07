@@ -12,8 +12,11 @@ import java.io.Serializable;
 @Table(name = "items")
 @Accessors(fluent = true, chain = true)
 public class Item implements Serializable {
+
+    static Integer _id = 1;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     @Getter
     @Setter
@@ -54,5 +57,12 @@ public class Item implements Serializable {
                 ", unitPrice=" + unitPrice +
                 ", quantity=" + quantity +
                 '}';
+    }
+
+    public void updateId() {
+        if (id == null) {
+            id = _id++;
+            _id++;
+        }
     }
 }

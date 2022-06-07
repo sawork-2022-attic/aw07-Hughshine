@@ -1,6 +1,16 @@
 spring:
   application:
     name: pos-order
+  cloud:
+    function:
+      definition: createDeliver
+    stream:
+      function:
+        bindings:
+          createDeliver-out-0: deliver
+      bindings:
+        deliver:
+          destination: deliver
 server:
   port: 45903
 eureka:

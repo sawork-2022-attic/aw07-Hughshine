@@ -20,13 +20,17 @@ public class Cart implements Serializable {
     @Setter
     private Integer id;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "items", joinColumns = @JoinColumn(name = "cart_id"))
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "carts_items", 
+        joinColumns = @JoinColumn(name = "cart_id"),
+        inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
     @Setter
     @Getter
     private List<Item> items = new ArrayList<>();
 
     public boolean addItem(Item item) {
+        item.updateId();
         return items.add(item);
     }
 
