@@ -9,6 +9,8 @@ import com.micropos.cart.model.Item;
 import com.micropos.cart.repository.CartRepository;
 import com.micropos.cart.repository.ItemRepository;
 import com.micropos.dto.CartDto;
+import com.micropos.dto.OrderDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
@@ -84,8 +86,14 @@ public class CartServiceImpl implements CartService {
             throw new RuntimeException(e);
         }
         HttpEntity<String> finalRequest = request;
+        
+        OrderDto orderDto = circuitBreaker.run(() -> restTemplate.postForObject(ORDER_URL, finalRequest, OrderDto.class), throwable -> null);
+        if (orderDto == null) {
+            return -1.0; 
+        }
         Double total =
                 circuitBreaker.run(() -> restTemplate.postForObject(COUNTER_URL + "/checkout", finalRequest, Double.class), throwable -> -1.0);
+        
         return total;
     }
 

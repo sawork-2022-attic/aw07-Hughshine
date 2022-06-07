@@ -2,16 +2,14 @@ package com.micropos.order.service;
 
 import org.springframework.stereotype.Service;
 
+import com.micropos.dto.CartDto;
 // import com.micropos.cart.mapper.OrderMapper;
 // import com.micropos.cart.model.Cart;
 import com.micropos.order.model.Order;
 
 // import com.micropos.cart.model.Item;
 import com.micropos.order.repository.OrderRepository;
-import com.micropos.dto.CartDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.data.util.Streamable;
 import org.springframework.http.HttpEntity;
@@ -49,22 +47,15 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    // public double getOrders() {
-
-    //     // System.out.println("checkout: " + cart);
-    //     // if (cart.getItems() == null)
-    //     //     return 0.0;
-    //     // double total = 0;
-    //     // for (CartItemDto item : cart.getItems()) {
-    //     //     total += item.getAmount() * item.getProduct().getPrice();
-    //     // }
-    //     // return total;
-    //     return 0.0;
-    // }
-
-    // @Override
     public List<Order> getOrders() {
         return Streamable.of(orderRepository.findAll()).toList();
+    }
+
+    public Order createOrder(CartDto cartDto) {
+        System.out.println("Creating order...");
+        Order order = new Order();
+        order.setCartId(cartDto.getId());
+        return orderRepository.save(order);
     }
 
 }
