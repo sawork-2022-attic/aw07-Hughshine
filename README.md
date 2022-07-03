@@ -1,8 +1,6 @@
-*. 实现两个微服务：order/deliver，分别负责订单和快递记录，两者通过rabbitmq连系
+*. 在作业5基础上，实现两个微服务：order/deliver，分别负责订单和快递记录，两者通过rabbitmq连系
     1. cart在checkout时，向order提交订单，order在处理提交时，向deliver exchange发送新的快递消息
-    2. deliver向exchange注册一个consumer，对于每一个快递消息，完成自己的业务逻辑（快递记录）；同时它提供独立接口查询已有快递记录。
-
-*. 修复了作业5的一个错误
+    2. deliver向exchange注册一个consumer，对于每一个快递消息，完成自己的业务逻辑（快递记录）；同时它提供独立接口用于客户查询已发生的快递记录。
 
 ![](./assets/checkout.png)
 ![](./assets/order.png)
